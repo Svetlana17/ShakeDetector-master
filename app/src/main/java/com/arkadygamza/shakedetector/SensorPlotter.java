@@ -30,13 +30,13 @@ public class SensorPlotter {
     private final Observable<SensorEvent> mSensorEventObservable;
     private long mLastUpdated = mStart;
     private Subscription mSubscription;
-
-
+    public  boolean flag=true;
+    GraphView graphView;
     public SensorPlotter(@NonNull String name, @NonNull  GraphView graphView,
                          @NonNull Observable<SensorEvent> sensorEventObservable) {
         mName = name;
         mSensorEventObservable = sensorEventObservable;
-
+          this.graphView=graphView;
         graphView.getViewport().setXAxisBoundsManual(true);
         graphView.getViewport().setMinX(0);
         graphView.getViewport().setMaxX(VIEWPORT_SECONDS * 1000); // number of ms in viewport
@@ -72,10 +72,26 @@ public class SensorPlotter {
         if (!canUpdateUi()) {
             return;
         }
+        else {
+            appendData(mSeriesX, event.values[0]);
+            appendData(mSeriesY, event.values[1]);
+            appendData(mSeriesZ, event.values[2]);
+            if (!flag) {
+                removeSeries(mSeriesX);
+                removeSeries(mSeriesY);
+                removeSeries(mSeriesZ);
+            } else {
 
-        appendData(mSeriesX, event.values[0]);
-        appendData(mSeriesY, event.values[1]);
-        appendData(mSeriesZ, event.values[2]);
+                appendData(mSeriesX, event.values[0]);
+                appendData(mSeriesY, event.values[1]);
+                appendData(mSeriesZ, event.values[2]);
+            }
+        }
+    }
+
+    private void removeSeries(LineGraphSeries<DataPoint>  dataPointLineGraphSeries){
+        graphView.removeSeries(dataPointLineGraphSeries);
+
     }
 
     private boolean canUpdateUi() {

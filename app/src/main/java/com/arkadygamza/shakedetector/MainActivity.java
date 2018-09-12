@@ -57,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "Ускорение по оси ОХ!", Toast.LENGTH_SHORT);
                         toast.show();
+                        mPlotters.get(0).flag=false;
                         break;
                     case 1: System.out.println("y");
                         Toast toasts = Toast.makeText(getApplicationContext(),
                                 "Ускорение по оси ОY!", Toast.LENGTH_SHORT);
                         toasts.show();
+                        mPlotters.get(0).flag=true;
                         break;
                     case 2:  System.out.println("z");
                         Toast toastss = Toast.makeText(getApplicationContext(),

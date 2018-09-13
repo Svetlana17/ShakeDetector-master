@@ -15,8 +15,8 @@ import rx.Subscription;
  * Draws graph of sensor events
  */
 public class SensorPlotter {
-    public static final int MAX_DATA_POINTS = 50;
-    public static final int VIEWPORT_SECONDS = 5;
+    public static final int MAX_DATA_POINTS = 50;//max число точек
+    public static final int VIEWPORT_SECONDS = 5; //число тсчтеов в секунду
     public static final int FPS = 10;
 
     @NonNull
@@ -24,13 +24,13 @@ public class SensorPlotter {
 
     private final long mStart = System.currentTimeMillis();
 
-    protected final LineGraphSeries<DataPoint> mSeriesX;
+    public final LineGraphSeries<DataPoint> mSeriesX;
     protected final LineGraphSeries<DataPoint> mSeriesY;
     protected final LineGraphSeries<DataPoint> mSeriesZ;
     private final Observable<SensorEvent> mSensorEventObservable;
     private long mLastUpdated = mStart;
     private Subscription mSubscription;
-    public  boolean flag=true;
+    public static boolean flag=true;
     GraphView graphView;
     public SensorPlotter(@NonNull String name, @NonNull  GraphView graphView,
                          @NonNull Observable<SensorEvent> sensorEventObservable) {
@@ -55,9 +55,15 @@ public class SensorPlotter {
         mSeriesY.setColor(Color.GREEN);
         mSeriesZ.setColor(Color.BLUE);
 
-        graphView.addSeries(mSeriesX);
-        graphView.addSeries(mSeriesY);
-        graphView.addSeries(mSeriesZ);
+
+        if(flag=true){
+            graphView.addSeries(mSeriesX);
+            System.out.println(flag);
+        }else {
+            graphView.removeSeries(mSeriesX);}
+//            graphView.addSeries(mSeriesY);
+//            graphView.addSeries(mSeriesZ);
+        System.out.println(flag);
     }
 
     public void onResume(){
@@ -76,16 +82,16 @@ public class SensorPlotter {
             appendData(mSeriesX, event.values[0]);
             appendData(mSeriesY, event.values[1]);
             appendData(mSeriesZ, event.values[2]);
-            if (!flag) {
-                removeSeries(mSeriesX);
-                removeSeries(mSeriesY);
-                removeSeries(mSeriesZ);
-            } else {
-
-                appendData(mSeriesX, event.values[0]);
-                appendData(mSeriesY, event.values[1]);
-                appendData(mSeriesZ, event.values[2]);
-            }
+//            if (!flag) {
+//                removeSeries(mSeriesX);
+//                removeSeries(mSeriesY);
+//                removeSeries(mSeriesZ);
+//            } else {
+//
+//                appendData(mSeriesX, event.values[0]);
+//                appendData(mSeriesY, event.values[1]);
+//                appendData(mSeriesZ, event.values[2]);
+//            }
         }
     }
 

@@ -30,6 +30,7 @@ public class SensorEventObservableFactory {
                 @Override
                 public void onAccuracyChanged(Sensor sensor, int accuracy) {
                     // NO-OP
+
                 }
             };
 
